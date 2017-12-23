@@ -6,4 +6,7 @@
     <color name="lightPurple">#9d4adf</color>
     <color name="lightPink">#e9859f</color>
     <color name="lightPink2">#f26c78</color>
+    <color name="difPink">#f16f7d</color>
+    <color name="white">#ffffff</color>
+    <color name="darkPink">#df546e</color>
 </resources>
