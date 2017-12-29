@@ -16,7 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity"></activity>
+        <activity android:name=".HomeActivity"/>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyApWRvM6OtEcmGPaX9xKidtk6jiVE6FbPM"/>
     </application>
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 </manifest>

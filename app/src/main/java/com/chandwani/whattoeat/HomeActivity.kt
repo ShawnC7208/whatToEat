@@ -1,32 +1,61 @@
 package com.chandwani.whattoeat
 
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.FragmentActivity
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import butterknife.OnClick
 import com.lorentzos.flingswipe.SwipeFlingAdapterView
+import com.google.android.gms.location.places.GeoDataClient
+import com.google.android.gms.location.places.Places
 
 class HomeActivity : AppCompatActivity() {
 
     private var al: ArrayList<String>? = null
     private var arrayAdapter: ArrayAdapter<String>? = null
     private var i: Int = 0
+    private lateinit var mGeoDataClient: GeoDataClient
+    private var locationManager : LocationManager? = null
+
+    private val locationListener: LocationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            var locationToast = Toast.makeText( this@HomeActivity,
+                    location.longitude.toString() + ":" + location.latitude.toString(),
+                    Toast.LENGTH_SHORT)
+            locationToast.show()
+        }
+        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
+        override fun onProviderEnabled(provider: String) {}
+        override fun onProviderDisabled(provider: String) {}
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        var intentExtras = intent
+        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
 
-        var extrasBundle = intentExtras.extras
+        try {
+            // Request location updates
+            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+        } catch(ex: SecurityException) {
+            Log.d("myTag", "Security Exception, no location available");
+        }
 
+
+
+        //Get values from extras for account information
+        var extrasBundle = intent.extras
         var email = extrasBundle.getString("email")
         var givenName = extrasBundle.getString("givenName")
-        var testToast = Toast.makeText(this,givenName, Toast.LENGTH_SHORT)
-        testToast.show()
+        //var testToast = Toast.makeText(this,givenName, Toast.LENGTH_SHORT)
+        //testToast.show()
 
         var flingContainer: SwipeFlingAdapterView = findViewById(R.id.frame)
 
