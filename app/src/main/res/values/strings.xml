@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">whatToEat</string>
+    <string name="card_start">Hello World</string>
 </resources>
