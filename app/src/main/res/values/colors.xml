@@ -3,10 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="lightPurple">#9d4adf</color>
-    <color name="lightPink">#e9859f</color>
-    <color name="lightPink2">#f26c78</color>
+    <color name="bruntOrange">#ff5a00</color>
+    <color name="red">#ff0000</color>
+    <color name="lightYellow">#ffce00</color>
     <color name="difPink">#f16f7d</color>
     <color name="white">#ffffff</color>
     <color name="darkPink">#df546e</color>
+    <color name="grassGreen">#1C7E2B</color>
+    <color name="darkGreen">#133F30</color>
+    <color name="bruntOrange2">#DF4521</color>
 </resources>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "881816462918",
+    "project_id": "whattoeat-fc7b8"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:881816462918:android:0302b3996989d141",
+        "android_client_info": {
+          "package_name": "com.chandwani.whattoeat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "881816462918-ou803jab0rtacn8mi2fj5l6teg2uod3t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chandwani.whattoeat",
+            "certificate_hash": "0e904a3f4b9c471d706b1d8d4b4807219e596952"
+          }
+        },
+        {
+          "client_id": "881816462918-u6roopb0aqpqjf1tedv53hip1siio0s1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWrS-0SZ7-VpkAWSGAOzhwvlrbAC1S73c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
