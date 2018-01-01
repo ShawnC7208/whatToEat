@@ -22,13 +22,17 @@ class HomeActivity : AppCompatActivity() {
     private var i: Int = 0
     private lateinit var mGeoDataClient: GeoDataClient
     private var locationManager : LocationManager? = null
+    var lat = 0.0
+    var lng = 0.0
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            var locationToast = Toast.makeText( this@HomeActivity,
-                    location.longitude.toString() + ":" + location.latitude.toString(),
-                    Toast.LENGTH_SHORT)
-            locationToast.show()
+            lat=location.latitude
+            lng=location.longitude
+//            var locationToast = Toast.makeText( this@HomeActivity,
+//                    location.longitude.toString() + ":" + location.latitude.toString(),
+//                    Toast.LENGTH_SHORT)
+//            locationToast.show()
         }
         override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
         override fun onProviderEnabled(provider: String) {}
@@ -43,12 +47,15 @@ class HomeActivity : AppCompatActivity() {
 
         try {
             // Request location updates
-            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, locationListener)
+            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000L, 10f, locationListener)
         } catch(ex: SecurityException) {
             Log.d("myTag", "Security Exception, no location available");
         }
 
-
+        val yelpHelper = YelpHelper()
+//        var testName = yelpHelper.getBussinessList(lat.toString(),lng.toString())
+//        var testToast = Toast.makeText(this,testName, Toast.LENGTH_SHORT)
+//        testToast.show()
 
         //Get values from extras for account information
         var extrasBundle = intent.extras

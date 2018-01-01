@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">whatToEat</string>
     <string name="card_start">Hello World</string>
+    <string name="YelpApiKey">umnrzi9gXZOdZv3APeOxbsGktOY7O0ndH-CI6wn9vg6f_U0gBLkUKiz5O4IyePSnweGre8iOtgjHE5pn7Sv3s8e1GUnDp0EGggS9O9dZ9oz1ot-kpn0AzOladwlIWnYx</string>
+    <string name="YelpClientID">fPm6_W_1h4Svblimj7GJAw</string>
+    <string name="YelpClientSecret">sXo8RejGu9sQbh8NK8APAF8v3NbwveR0ycScLkve1YGNKuAGhbITGe81cJSrvNq5</string>
 </resources>

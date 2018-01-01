@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "881816462918",
-    "project_id": "whattoeat-fc7b8"
+    "project_number": "1054583178048",
+    "project_id": "whattoeat-4e025"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:881816462918:android:0302b3996989d141",
+        "mobilesdk_app_id": "1:1054583178048:android:0302b3996989d141",
         "android_client_info": {
           "package_name": "com.chandwani.whattoeat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "881816462918-ou803jab0rtacn8mi2fj5l6teg2uod3t.apps.googleusercontent.com",
+          "client_id": "1054583178048-2n0daddkakvpl0angbj9l4o1ccjvgesd.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1054583178048-aq00vshrlluam1vbbgf6flnm2umtegnm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.chandwani.whattoeat",
-            "certificate_hash": "0e904a3f4b9c471d706b1d8d4b4807219e596952"
+            "certificate_hash": "128fad6b58fe36ab0addcbff7a552e557809459d"
           }
-        },
-        {
-          "client_id": "881816462918-u6roopb0aqpqjf1tedv53hip1siio0s1.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCWrS-0SZ7-VpkAWSGAOzhwvlrbAC1S73c"
+          "current_key": "AIzaSyDaS5nWEzSQOYw8waZG555TyTr4v9jv8V8"
         }
       ],
       "services": {

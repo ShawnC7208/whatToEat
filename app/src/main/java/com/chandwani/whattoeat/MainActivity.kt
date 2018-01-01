@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity(),
 
     private fun handleSignInResult(completedTask: com.google.android.gms.tasks.Task<GoogleSignInAccount>) {
         try {
+
             val account = completedTask.getResult(ApiException::class.java)
 
             updateUI(account)
