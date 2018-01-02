@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/android_git.iml" filepath="$PROJECT_DIR$/android_git.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\android_git\whatToEat.iml" filepath="C:\android_git\whatToEat.iml" />
+      <module fileurl="file://$PROJECT_DIR$/whatToEat.iml" filepath="$PROJECT_DIR$/whatToEat.iml" />
     </modules>
   </component>
 </project>

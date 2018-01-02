@@ -1,5 +1,6 @@
 package com.chandwani.whattoeat
 
+import android.database.Observable
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -11,60 +12,59 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import butterknife.OnClick
+import com.chandwani.whattoeat.YelpApi.YelpSearchRepositoryProvider
 import com.lorentzos.flingswipe.SwipeFlingAdapterView
 import com.google.android.gms.location.places.GeoDataClient
 import com.google.android.gms.location.places.Places
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.reflect.Type
+import java.util.*
+import javax.xml.transform.Result
 
 class HomeActivity : AppCompatActivity() {
 
     private var al: ArrayList<String>? = null
     private var arrayAdapter: ArrayAdapter<String>? = null
     private var i: Int = 0
-    private lateinit var mGeoDataClient: GeoDataClient
-    private var locationManager : LocationManager? = null
-    var lat = 0.0
-    var lng = 0.0
+    var lat = 37.786882
+    var lng = -122.399972
+    val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    private val locationListener: LocationListener = object : LocationListener {
-        override fun onLocationChanged(location: Location) {
-            lat=location.latitude
-            lng=location.longitude
-//            var locationToast = Toast.makeText( this@HomeActivity,
-//                    location.longitude.toString() + ":" + location.latitude.toString(),
-//                    Toast.LENGTH_SHORT)
-//            locationToast.show()
-        }
-        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-        override fun onProviderEnabled(provider: String) {}
-        override fun onProviderDisabled(provider: String) {}
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager?
-
-        try {
-            // Request location updates
-            locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000L, 10f, locationListener)
-        } catch(ex: SecurityException) {
-            Log.d("myTag", "Security Exception, no location available");
-        }
-
-        val yelpHelper = YelpHelper()
-//        var testName = yelpHelper.getBussinessList(lat.toString(),lng.toString())
-//        var testToast = Toast.makeText(this,testName, Toast.LENGTH_SHORT)
-//        testToast.show()
-
         //Get values from extras for account information
         var extrasBundle = intent.extras
         var email = extrasBundle.getString("email")
         var givenName = extrasBundle.getString("givenName")
-        //var testToast = Toast.makeText(this,givenName, Toast.LENGTH_SHORT)
-        //testToast.show()
+        lat = extrasBundle.getDouble("lat")
+        lng = extrasBundle.getDouble("lng")
 
-        var flingContainer: SwipeFlingAdapterView = findViewById(R.id.frame)
+        //Call Yelp API
+        val repository = YelpSearchRepositoryProvider.provideYelpSearchRepository()
+        compositeDisposable.add(
+                repository.buisnessList(lat.toString(), lng.toString())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            result -> Toast.makeText(this@HomeActivity, result.toString(), Toast.LENGTH_SHORT).show()
+                        }, {
+                            error -> error.printStackTrace()
+                        })
+        )
+
+        //Create swipe container
+        var flingContainer: SwipeFlingAdapterView = findViewById<SwipeFlingAdapterView>(R.id.frame)
 
         al = ArrayList<String>()
 
@@ -122,5 +122,7 @@ class HomeActivity : AppCompatActivity() {
         fun left() {
             flingContainer.topCardListener.selectLeft()
         }
+
+
     }
 }
