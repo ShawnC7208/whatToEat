@@ -28,24 +28,4 @@ interface YelpHelper{
             return  retrofit.create(YelpHelper::class.java)
         }
     }
-
-    //private lateinit var apiFactory : YelpFusionApiFactory
-    //private lateinit var yelpFusionApi : YelpFusionApi
-//    constructor(){
-
-
-//        apiFactory = YelpFusionApiFactory()
-//        yelpFusionApi=apiFactory.createAPI("fPm6_W_1h4Svblimj7GJAw", "sXo8RejGu9sQbh8NK8APAF8v3NbwveR0ycScLkve1YGNKuAGhbITGe81cJSrvNq5")
- //   }
-
-  //  fun getBussinessList(lat : String,lng : String):String{
-//        val params:HashMap<String,String> = HashMap()
-//        params.put("latitude",lat)
-//        params.put("longitude",lng)
-//        val call = yelpFusionApi.getBusinessSearch(params)
-//        val response = call.execute()
-//        var nameTest = response.body()!!.businesses.get(0).name
-//        return nameTest
-  //      return ""
-  //  }
 }

@@ -1,67 +1,56 @@
 package com.chandwani.whattoeat
 
-import android.database.Observable
+import android.annotation.SuppressLint
 import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
 import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import butterknife.OnClick
 import com.chandwani.whattoeat.YelpApi.YelpSearchRepositoryProvider
+import com.google.android.gms.location.LocationRequest
 import com.lorentzos.flingswipe.SwipeFlingAdapterView
-import com.google.android.gms.location.places.GeoDataClient
-import com.google.android.gms.location.places.Places
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.reflect.Type
 import java.util.*
-import javax.xml.transform.Result
+import pl.charmas.android.reactivelocation2.ReactiveLocationProvider
+
 
 class HomeActivity : AppCompatActivity() {
 
     private var al: ArrayList<String>? = null
     private var arrayAdapter: ArrayAdapter<String>? = null
     private var i: Int = 0
-    var lat = 37.786882
-    var lng = -122.399972
     val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
 
+    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
         //Get values from extras for account information
         var extrasBundle = intent.extras
-        var email = extrasBundle.getString("email")
-        var givenName = extrasBundle.getString("givenName")
-        lat = extrasBundle.getDouble("lat")
-        lng = extrasBundle.getDouble("lng")
+        //var email = extrasBundle.getString("email")
+        //var givenName = extrasBundle.getString("givenName")
 
-        //Call Yelp API
-        val repository = YelpSearchRepositoryProvider.provideYelpSearchRepository()
-        compositeDisposable.add(
-                repository.buisnessList(lat.toString(), lng.toString())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({
-                            result -> Toast.makeText(this@HomeActivity, result.toString(), Toast.LENGTH_SHORT).show()
-                        }, {
-                            error -> error.printStackTrace()
-                        })
-        )
+        val request = LocationRequest.create() //standard GMS LocationRequest
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setNumUpdates(1)
+                .setInterval(100)
+
+        //Get location with observable then call yelp api on the subscribe after location returns
+        val locationProvider = ReactiveLocationProvider(this)
+        locationProvider.getUpdatedLocation(request)
+                .subscribe(object : Consumer<Location> {
+                    override fun accept(location: Location?) {
+                        callYelpAPI(location!!.latitude, location!!.longitude)
+                    }
+                })
 
         //Create swipe container
         var flingContainer: SwipeFlingAdapterView = findViewById<SwipeFlingAdapterView>(R.id.frame)
@@ -122,7 +111,21 @@ class HomeActivity : AppCompatActivity() {
         fun left() {
             flingContainer.topCardListener.selectLeft()
         }
+    }
 
-
+    //Call yelp api
+    fun callYelpAPI(lat: Double, lng: Double) {
+        //Call Yelp API
+        val repository = YelpSearchRepositoryProvider.provideYelpSearchRepository()
+        compositeDisposable.add(
+                repository.buisnessList(lat.toString(), lng.toString())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            result -> Toast.makeText(this@HomeActivity, result.toString(), Toast.LENGTH_SHORT).show()
+                        }, {
+                            error -> error.printStackTrace()
+                        })
+        )
     }
 }
