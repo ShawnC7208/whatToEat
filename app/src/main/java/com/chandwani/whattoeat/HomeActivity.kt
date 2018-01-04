@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import butterknife.OnClick
+import com.chandwani.whattoeat.ClassModels.YelpApiModels.YelpSearchResultModel.Business
 import com.chandwani.whattoeat.ClassModels.YelpApiModels.YelpSearchResultModel.YelpBusinessSearchResult
 import com.chandwani.whattoeat.YelpApi.YelpSearchRepositoryProvider
 import com.google.android.gms.location.LocationRequest
@@ -44,6 +45,15 @@ class HomeActivity : AppCompatActivity() {
                 .setNumUpdates(1)
                 .setInterval(100)
 
+
+        //Create swipe container
+        var flingContainer: SwipeFlingAdapterView = findViewById<SwipeFlingAdapterView>(R.id.frame)
+
+        al = ArrayList<String>()
+
+        //al!!.add("Card 1")
+        //al!!.add("Card 2")
+
         //Get location with observable then call yelp api on the subscribe after location returns
         val locationProvider = ReactiveLocationProvider(this)
         locationProvider.getUpdatedLocation(request)
@@ -53,13 +63,6 @@ class HomeActivity : AppCompatActivity() {
                     }
                 })
 
-        //Create swipe container
-        var flingContainer: SwipeFlingAdapterView = findViewById<SwipeFlingAdapterView>(R.id.frame)
-
-        al = ArrayList<String>()
-
-        al!!.add("Card 1")
-        al!!.add("Card 2")
 
         arrayAdapter = ArrayAdapter<String>(this, R.layout.card, R.id.helloText, al)
 
@@ -132,7 +135,13 @@ class HomeActivity : AppCompatActivity() {
 
     fun getBusinessDetails(yelpApiSearchResults: YelpBusinessSearchResult) {
         //Do for each loop here for buisness inside of the YelpBusinessSearchResult object
-        Toast.makeText(this@HomeActivity, yelpApiSearchResults.businesses[0].name, Toast.LENGTH_SHORT).show()
-
+        var business:Business
+        for(business in yelpApiSearchResults.businesses) {
+            var bussinessInfo:String = business.name + "\n" + business.rating
+            al!!.add(bussinessInfo)
+            arrayAdapter!!.notifyDataSetChanged()
+            Log.d("LIST", "notified")
+            //Toast.makeText(this@HomeActivity, business.name, Toast.LENGTH_SHORT).show()
+        }
     }
 }
