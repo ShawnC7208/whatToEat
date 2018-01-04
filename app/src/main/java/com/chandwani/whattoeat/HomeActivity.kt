@@ -34,7 +34,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
 
         //Get values from extras for account information
-        var extrasBundle = intent.extras
+        //var extrasBundle = intent.extras
         //var email = extrasBundle.getString("email")
         //var givenName = extrasBundle.getString("givenName")
 
@@ -122,7 +122,7 @@ class HomeActivity : AppCompatActivity() {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            result -> Toast.makeText(this@HomeActivity, result.toString(), Toast.LENGTH_SHORT).show()
+                            result -> Toast.makeText(this@HomeActivity, result.businesses[0].name, Toast.LENGTH_SHORT).show()
                         }, {
                             error -> error.printStackTrace()
                         })

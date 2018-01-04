@@ -1,5 +1,6 @@
 package com.chandwani.whattoeat.YelpApi
 
+import com.chandwani.whattoeat.ClassModels.YelpApiModels.YelpSearchResultModel.YelpBuisnessSearchResult
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,7 +17,7 @@ interface YelpHelper{
     @GET("businesses/search")
     fun buisnessesList(@Query("latitude") lat : String,
                        @Query("longitude") lng : String,
-                       @Header("Authorization") key: String): io.reactivex.Observable<Any>
+                       @Header("Authorization") key: String): io.reactivex.Observable<YelpBuisnessSearchResult>
     companion object Factory {
         fun create(): YelpHelper {
             val retrofit = Retrofit
