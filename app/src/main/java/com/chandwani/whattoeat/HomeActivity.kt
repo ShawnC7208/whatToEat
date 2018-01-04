@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import butterknife.OnClick
+import com.chandwani.whattoeat.ClassModels.YelpApiModels.YelpSearchResultModel.YelpBusinessSearchResult
 import com.chandwani.whattoeat.YelpApi.YelpSearchRepositoryProvider
 import com.google.android.gms.location.LocationRequest
 import com.lorentzos.flingswipe.SwipeFlingAdapterView
@@ -122,10 +123,16 @@ class HomeActivity : AppCompatActivity() {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            result -> Toast.makeText(this@HomeActivity, result.businesses[0].name, Toast.LENGTH_SHORT).show()
+                            result -> getBusinessDetails(result)
                         }, {
                             error -> error.printStackTrace()
                         })
         )
+    }
+
+    fun getBusinessDetails(yelpApiSearchResults: YelpBusinessSearchResult) {
+        //Do for each loop here for buisness inside of the YelpBusinessSearchResult object
+        Toast.makeText(this@HomeActivity, yelpApiSearchResults.businesses[0].name, Toast.LENGTH_SHORT).show()
+
     }
 }
