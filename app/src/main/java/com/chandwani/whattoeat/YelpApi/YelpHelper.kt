@@ -6,6 +6,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
@@ -15,9 +16,15 @@ interface YelpHelper{
 
 
     @GET("businesses/search")
-    fun buisnessesList(@Query("latitude") lat : String,
+    fun businessesList(@Query("term") term : String,
+                       @Query("latitude") lat : String,
                        @Query("longitude") lng : String,
                        @Header("Authorization") key: String): io.reactivex.Observable<YelpBusinessSearchResult>
+
+    @GET("businesses/{id}")
+    fun businessDetails(@Path("id") id: String,
+                        @Header("Authorization") key: String): io.reactivex.Observable<Any>
+
     companion object Factory {
         fun create(): YelpHelper {
             val retrofit = Retrofit

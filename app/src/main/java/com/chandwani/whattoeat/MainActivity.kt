@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(),
         super.onStart()
         var account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(this)
 
-        //updateUI(account)
+        updateUI(account)
     }
 
     override fun onClick(V: View?) {

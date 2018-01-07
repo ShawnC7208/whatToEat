@@ -55,21 +55,21 @@ class HomeActivity : AppCompatActivity() {
         locationProvider.getUpdatedLocation(request)
                 .subscribe(object : Consumer<Location> {
                     override fun accept(location: Location?) {
-                        callYelpAPI(location!!.latitude, location!!.longitude)
+                        callYelpAPI("food", location!!.latitude, location!!.longitude)
                     }
                 })
     }
 
     //Call yelp api
-    fun callYelpAPI(lat: Double, lng: Double) {
+    fun callYelpAPI(term: String ,lat: Double, lng: Double) {
         //Call Yelp API
         val repository = YelpSearchRepositoryProvider.provideYelpSearchRepository()
         compositeDisposable.add(
-                repository.buisnessList(lat.toString(), lng.toString())
+                repository.businessList(term, lat.toString(), lng.toString())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
-                            result -> getBusinessDetails(result)
+                            result -> addBusinessCards(result)
                         }, {
                             error -> error.printStackTrace()
                         })
@@ -77,17 +77,31 @@ class HomeActivity : AppCompatActivity() {
     }
 
     //Called after getting search results form Yelp API
-    fun getBusinessDetails(yelpApiSearchResults: YelpBusinessSearchResult) {
+    fun addBusinessCards(yelpApiSearchResults: YelpBusinessSearchResult) {
         //Do for each loop here for buisness inside of the YelpBusinessSearchResult object
+
         for(business in yelpApiSearchResults.businesses) {
-            addCardToList(business)
+            getDetailsForBusiness(business)
         }
-        //After cards have been added create the interface and bind the list
-        //createSwipeCards()
+    }
+
+    //Get more details for a Business
+    fun getDetailsForBusiness(business: Business) {
+        val repository = YelpSearchRepositoryProvider.provideYelpSearchRepository()
+        compositeDisposable.add(
+                repository.businessDetails(business.id)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            result -> addCardToList(business, result)
+                        }, {
+                            error -> error.printStackTrace()
+                        })
+        )
     }
 
     //Add A card to the list of cards
-    fun addCardToList(business: Business) {
+    fun addCardToList(business: Business, buisnessDetail: Any) {
         var bussinessInfo:String = business.name + "\n" + business.rating
         al!!.add(bussinessInfo)
         arrayAdapter!!.notifyDataSetChanged()
@@ -124,10 +138,10 @@ class HomeActivity : AppCompatActivity() {
 
             override fun onAdapterAboutToEmpty(itemsInAdapter: Int) {
                 // Ask for more data here
-                al!!.add("XML Test" + i.toString())
-                arrayAdapter!!.notifyDataSetChanged()
-                Log.d("LIST", "notified")
-                i += 1
+//                al!!.add("XML Test" + i.toString())
+//                arrayAdapter!!.notifyDataSetChanged()
+//                Log.d("LIST", "notified")
+//                i += 1
             }
         })
 
