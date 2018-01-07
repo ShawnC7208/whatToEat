@@ -27,7 +27,8 @@ class HomeActivity : AppCompatActivity() {
     private var al: ArrayList<String>? = null
     private var arrayAdapter: ArrayAdapter<String>? = null
     private var i: Int = 0
-    val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private lateinit var flingContainer: SwipeFlingAdapterView
 
 
     @SuppressLint("MissingPermission")
@@ -35,24 +36,19 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        //Get values from extras for account information
-        //var extrasBundle = intent.extras
-        //var email = extrasBundle.getString("email")
-        //var givenName = extrasBundle.getString("givenName")
+        //Initialize variables
+        al = ArrayList<String>()
+        flingContainer = findViewById<SwipeFlingAdapterView>(R.id.frame)
+        arrayAdapter = ArrayAdapter<String>(this, R.layout.card, R.id.helloText, al)
 
+        //Create cards interface
+        createSwipeCards()
+
+        //Get the location of device currently
         val request = LocationRequest.create() //standard GMS LocationRequest
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setNumUpdates(1)
                 .setInterval(100)
-
-
-        //Create swipe container
-        var flingContainer: SwipeFlingAdapterView = findViewById<SwipeFlingAdapterView>(R.id.frame)
-
-        al = ArrayList<String>()
-
-        //al!!.add("Card 1")
-        //al!!.add("Card 2")
 
         //Get location with observable then call yelp api on the subscribe after location returns
         val locationProvider = ReactiveLocationProvider(this)
@@ -62,9 +58,43 @@ class HomeActivity : AppCompatActivity() {
                         callYelpAPI(location!!.latitude, location!!.longitude)
                     }
                 })
+    }
 
+    //Call yelp api
+    fun callYelpAPI(lat: Double, lng: Double) {
+        //Call Yelp API
+        val repository = YelpSearchRepositoryProvider.provideYelpSearchRepository()
+        compositeDisposable.add(
+                repository.buisnessList(lat.toString(), lng.toString())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            result -> getBusinessDetails(result)
+                        }, {
+                            error -> error.printStackTrace()
+                        })
+        )
+    }
 
-        arrayAdapter = ArrayAdapter<String>(this, R.layout.card, R.id.helloText, al)
+    //Called after getting search results form Yelp API
+    fun getBusinessDetails(yelpApiSearchResults: YelpBusinessSearchResult) {
+        //Do for each loop here for buisness inside of the YelpBusinessSearchResult object
+        for(business in yelpApiSearchResults.businesses) {
+            addCardToList(business)
+        }
+        //After cards have been added create the interface and bind the list
+        //createSwipeCards()
+    }
+
+    //Add A card to the list of cards
+    fun addCardToList(business: Business) {
+        var bussinessInfo:String = business.name + "\n" + business.rating
+        al!!.add(bussinessInfo)
+        arrayAdapter!!.notifyDataSetChanged()
+    }
+
+    //Create swipe container
+    fun createSwipeCards() {
 
         flingContainer.setAdapter(arrayAdapter)
         flingContainer.adapter = arrayAdapter
@@ -94,7 +124,7 @@ class HomeActivity : AppCompatActivity() {
 
             override fun onAdapterAboutToEmpty(itemsInAdapter: Int) {
                 // Ask for more data here
-                al!!.add("XML " + i.toString())
+                al!!.add("XML Test" + i.toString())
                 arrayAdapter!!.notifyDataSetChanged()
                 Log.d("LIST", "notified")
                 i += 1
@@ -114,34 +144,6 @@ class HomeActivity : AppCompatActivity() {
         @OnClick(R.id.item_swipe_left_indicator)
         fun left() {
             flingContainer.topCardListener.selectLeft()
-        }
-    }
-
-    //Call yelp api
-    fun callYelpAPI(lat: Double, lng: Double) {
-        //Call Yelp API
-        val repository = YelpSearchRepositoryProvider.provideYelpSearchRepository()
-        compositeDisposable.add(
-                repository.buisnessList(lat.toString(), lng.toString())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe({
-                            result -> getBusinessDetails(result)
-                        }, {
-                            error -> error.printStackTrace()
-                        })
-        )
-    }
-
-    fun getBusinessDetails(yelpApiSearchResults: YelpBusinessSearchResult) {
-        //Do for each loop here for buisness inside of the YelpBusinessSearchResult object
-        var business:Business
-        for(business in yelpApiSearchResults.businesses) {
-            var bussinessInfo:String = business.name + "\n" + business.rating
-            al!!.add(bussinessInfo)
-            arrayAdapter!!.notifyDataSetChanged()
-            Log.d("LIST", "notified")
-            //Toast.makeText(this@HomeActivity, business.name, Toast.LENGTH_SHORT).show()
         }
     }
 }
