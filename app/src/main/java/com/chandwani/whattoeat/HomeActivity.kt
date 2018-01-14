@@ -2,8 +2,10 @@ package com.chandwani.whattoeat
 
 import android.annotation.SuppressLint
 import android.location.Location
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -28,10 +30,6 @@ class HomeActivity : AppCompatActivity() {
 
     private var arrayAdapter: arrayAdapter? = null
     private var rowItems: ArrayList<cards>? = null
-    lateinit var listview: ListView
-
-    //private var al: ArrayList<String>? = null
-    //private var arrayAdapter: ArrayAdapter<String>? = null
     private var i: Int = 0
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private lateinit var flingContainer: SwipeFlingAdapterView
@@ -43,12 +41,11 @@ class HomeActivity : AppCompatActivity() {
 
 
         //Initialize variables
-        //al = ArrayList<String>()
         rowItems = ArrayList<cards>()
-        //flingContainer = findViewById<SwipeFlingAdapterView>(R.id.frame)
-        //arrayAdapter = ArrayAdapter<String>(this, R.layout.card, R.id.helloText, al)
-        //arrayAdapter= arrayAdapter(this,R.layout.card, rowItems)
 
+        flingContainer = findViewById<SwipeFlingAdapterView>(R.id.frame)
+        arrayAdapter= arrayAdapter(this,R.layout.card, rowItems)
+        createSwipeCards()
 
         //Get the location of device currently
         val request = LocationRequest.create() //standard GMS LocationRequest
@@ -109,20 +106,11 @@ class HomeActivity : AppCompatActivity() {
     //Add A card to the list of cards
     fun addCardToList(business: Business, buisnessDetail: Any) {
 
-        //var image:ImageView= findViewById<ImageView>(R.id.image)
         var bussinessInfo:String = business.name //+ "\n" + business.rating
         var imageUrl:String = business.image_url
 
-        //al!!.add(bussinessInfo)
         val card = cards(imageUrl,bussinessInfo)
         rowItems!!.add(card)
-
-        if(arrayAdapter == null) {
-            flingContainer = findViewById<SwipeFlingAdapterView>(R.id.frame)
-            arrayAdapter= arrayAdapter(this,R.layout.card, rowItems)
-            createSwipeCards()
-        }
-        arrayAdapter!!.add(card)
         arrayAdapter!!.notifyDataSetChanged()
     }
 
@@ -132,6 +120,7 @@ class HomeActivity : AppCompatActivity() {
         flingContainer.setAdapter(arrayAdapter)
         flingContainer.adapter = arrayAdapter
         flingContainer.setFlingListener(object : SwipeFlingAdapterView.onFlingListener {
+            @RequiresApi(Build.VERSION_CODES.HONEYCOMB)
             override fun onScroll(scrollProgressPercent: Float) {
                 val view = flingContainer.selectedView
                 view.findViewById<View>(R.id.item_swipe_right_indicator).setAlpha(if (scrollProgressPercent < 0) -scrollProgressPercent else 0f)
@@ -141,8 +130,7 @@ class HomeActivity : AppCompatActivity() {
             override fun removeFirstObjectInAdapter() {
                 // this is to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!")
-                //al!!.removeAt(0)
-                //rowItems!!.removeAt(0)
+                rowItems!!.removeAt(0)
                 arrayAdapter!!.notifyDataSetChanged()
             }
 

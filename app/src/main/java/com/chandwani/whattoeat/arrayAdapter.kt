@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+
+
 
 /**
  * Created by Arsalan on 1/8/2018.
@@ -19,47 +22,24 @@ class arrayAdapter : ArrayAdapter<cards> {
         this.adaptercontext = context
     }
 
-    private class ViewHolder{
-        lateinit var imageView:ImageView
-        lateinit var textView:TextView
-    }
-
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
-        var myConvertView = convertView
-        //this.convertView = convertView
-        var holder : ViewHolder? = null
-        var rowItem : cards = getItem(position)
+        var card_item: cards = getItem(position)
+        var convertView = convertView
+        if (convertView == null)
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.card, parent, false)
 
-        var mInflater : LayoutInflater = context
-                .getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        var name:TextView = convertView!!.findViewById<TextView>(R.id.helloText)
+        var image:ImageView = convertView.findViewById<ImageView>(R.id.image)
 
-        if(convertView == null){
-            myConvertView = mInflater.inflate(R.layout.card,null)
-            holder = ViewHolder()
-            holder.textView = myConvertView.findViewById(R.id.helloText)
-            holder.imageView = myConvertView.findViewById(R.id.image)
-            myConvertView.setTag(holder)
-        }
-        else {
-            holder = myConvertView!!.getTag() as ViewHolder?
+        name.setText(card_item.getName())
+
+        when (card_item.geturl()) {
+            "default" -> Glide.with(convertView.context).load(R.mipmap.ic_launcher).into(image)
+            else -> {
+                Glide.with(convertView.context).load(card_item.geturl()).into(image)
+            }
         }
 
-        holder!!.textView.setText(rowItem.getName())
-        holder!!.imageView.setImageResource(R.mipmap.ic_launcher)
-
-        return myConvertView
-//        var card_item: cards = getItem(position)
-//        var convertView=convertView
-//        if (convertView == null)
-//            convertView = LayoutInflater.from(getContext()).inflate(R.layout.card, parent, false)
-//
-//
-//        var name:TextView = convertView.findViewById<TextView>(R.id.helloText)
-//        var image:ImageView = convertView.findViewById<ImageView>(R.id.image)
-//
-//        name.setText(card_item.getName())
-//        image.setImageResource(R.mipmap.ic_launcher)
-//
-//        return convertView
+        return convertView
     }
 }
