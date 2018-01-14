@@ -2,6 +2,7 @@ package com.chandwani.whattoeat
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,9 +30,15 @@ class arrayAdapter : ArrayAdapter<cards> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.card, parent, false)
 
         var name:TextView = convertView!!.findViewById<TextView>(R.id.helloText)
-        var image:ImageView = convertView.findViewById<ImageView>(R.id.image)
+        var image:ImageView = convertView!!.findViewById<ImageView>(R.id.image)
+        var rating:TextView = convertView!!.findViewById<TextView>(R.id.rating)
+        var phone:TextView = convertView!!.findViewById<TextView>(R.id.phone)
+
+        name.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG)
 
         name.setText(card_item.getName())
+        rating.setText(card_item.getRating())
+        phone.setText(card_item.getPhone())
 
         when (card_item.geturl()) {
             "default" -> Glide.with(convertView.context).load(R.mipmap.ic_launcher).into(image)

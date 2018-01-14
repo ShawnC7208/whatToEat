@@ -106,10 +106,11 @@ class HomeActivity : AppCompatActivity() {
     //Add A card to the list of cards
     fun addCardToList(business: Business, buisnessDetail: Any) {
 
-        var bussinessInfo:String = business.name //+ "\n" + business.rating
+        var bussinessName:String = business.name //+ "\n" + business.rating
         var imageUrl:String = business.image_url
-
-        val card = cards(imageUrl,bussinessInfo)
+        var businessRating:String = "Rating: " + business.rating.toString() + "/5.0"
+        var businessPhone:String = "Phone: "+business.display_phone
+        val card = cards(imageUrl,bussinessName,businessRating,businessPhone)
         rowItems!!.add(card)
         arrayAdapter!!.notifyDataSetChanged()
     }
