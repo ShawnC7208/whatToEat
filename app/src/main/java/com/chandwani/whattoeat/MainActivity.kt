@@ -35,8 +35,9 @@ class MainActivity : AppCompatActivity(),
     override fun onStart() {
         super.onStart()
         var account: GoogleSignInAccount? = GoogleSignIn.getLastSignedInAccount(this)
-
-        updateUI(account)
+        if (account != null) {
+            updateUI(account)
+        }
     }
 
     override fun onClick(V: View?) {
