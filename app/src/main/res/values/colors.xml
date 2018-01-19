@@ -12,4 +12,6 @@
     <color name="grassGreen">#1C7E2B</color>
     <color name="darkGreen">#133F30</color>
     <color name="bruntOrange2">#DF4521</color>
+    <color name="lightRed">#F44336</color>
+    <color name="darkRed">#D32F2F</color>
 </resources>
