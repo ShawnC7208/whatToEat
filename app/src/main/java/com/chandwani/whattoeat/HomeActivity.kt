@@ -84,7 +84,8 @@ class HomeActivity : AppCompatActivity() {
         //Do for each loop here for buisness inside of the YelpBusinessSearchResult object
 
         for(business in yelpApiSearchResults.businesses) {
-            getDetailsForBusiness(business)
+            addCardToList(business)
+            //getDetailsForBusiness(business)
         }
     }
 
@@ -108,9 +109,23 @@ class HomeActivity : AppCompatActivity() {
 
         var bussinessName:String = business.name //+ "\n" + business.rating
         var imageUrl:String = business.image_url
-        var businessRating:String = "Rating: " + business.rating.toString() + "/5.0"
+        var businessRating:String = business.rating.toString()
         var businessPhone:String = "Phone: "+business.display_phone
-        val card = cards(imageUrl,bussinessName,businessRating,businessPhone)
+        var reviewCount:Double = business.review_count
+        val card = cards(imageUrl,bussinessName,businessRating,businessPhone, reviewCount)
+        rowItems!!.add(card)
+        arrayAdapter!!.notifyDataSetChanged()
+    }
+
+    //Add A card to the list of cards
+    fun addCardToList(business: Business) {
+
+        var bussinessName:String = business.name //+ "\n" + business.rating
+        var imageUrl:String = business.image_url
+        var businessRating:String = business.rating.toString()
+        var businessPhone:String = "Phone: "+business.display_phone
+        var reviewCount:Double = business.review_count
+        val card = cards(imageUrl,bussinessName,businessRating,businessPhone, reviewCount)
         rowItems!!.add(card)
         arrayAdapter!!.notifyDataSetChanged()
     }

@@ -8,35 +8,42 @@ class cards {
     private var name: String
     private var rating: String
     private var phone: String
-    constructor(url:String, name:String, rating:String, phone:String){
+    private var reviewCount: Double
+
+    constructor(url:String, name:String, rating:String, phone:String, reviewCount:Double) {
         this.name=name
         this.url=url
         this.rating=rating
         this.phone=phone
+        this.reviewCount = reviewCount
     }
 
-    fun geturl():String{
+    fun getReviewCount():Double {
+        return reviewCount
+    }
+
+    fun geturl():String {
         return url
     }
 
 
-    fun getName():String{
+    fun getName():String {
         return name
     }
 
-    fun getRating():String{
+    fun getRating():String {
         return rating
     }
 
-    fun setRating(){
+    fun setRating() {
         this.rating=rating
     }
 
-    fun getPhone():String{
+    fun getPhone():String {
         return phone
     }
 
-    fun setPhone(){
+    fun setPhone() {
         this.phone=phone
     }
 
