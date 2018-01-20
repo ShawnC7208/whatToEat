@@ -32,14 +32,12 @@ class arrayAdapter : ArrayAdapter<cards> {
         var name:TextView = convertView!!.findViewById<TextView>(R.id.helloText)
         var image:ImageView = convertView!!.findViewById<ImageView>(R.id.image)
         var reviewCount:TextView = convertView!!.findViewById<TextView>(R.id.reviewCount)
-        var phone:TextView = convertView!!.findViewById<TextView>(R.id.phone)
         var yelpStars:ImageView = convertView!!.findViewById<ImageView>(R.id.yelpStars)
 
         name.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG)
 
         name.setText(card_item.getName())
         reviewCount.setText(card_item.getReviewCount().toInt().toString() + " Reviews")
-        phone.setText(card_item.getPhone())
 
         when(card_item.getRating()) {
             "5.0" -> yelpStars.setImageResource(R.drawable.stars_large_5)

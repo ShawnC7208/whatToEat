@@ -23,6 +23,8 @@ import io.reactivex.schedulers.Schedulers
 import java.util.*
 import pl.charmas.android.reactivelocation2.ReactiveLocationProvider
 import com.bumptech.glide.Glide
+import com.chandwani.whattoeat.ClassModels.YelpApiModels.YelpSearchResultModel.yelpReviewModels.Review
+import com.chandwani.whattoeat.ClassModels.YelpApiModels.YelpSearchResultModel.yelpReviewModels.Reviews
 import kotlin.collections.ArrayList
 
 
@@ -84,7 +86,8 @@ class HomeActivity : AppCompatActivity() {
         //Do for each loop here for buisness inside of the YelpBusinessSearchResult object
 
         for(business in yelpApiSearchResults.businesses) {
-            addCardToList(business)
+            getReviewsForBusiness(business)
+            //addCardToList(business)
             //getDetailsForBusiness(business)
         }
     }
@@ -104,6 +107,38 @@ class HomeActivity : AppCompatActivity() {
         )
     }
 
+    //Get reviews for a Business
+    fun getReviewsForBusiness(business: Business) {
+        val repository = YelpSearchRepositoryProvider.provideYelpSearchRepository()
+        compositeDisposable.add(
+                repository.businessReviews(business.id)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            result -> addCardToList(business, result)
+                        }, {
+                            error -> error.printStackTrace()
+                        })
+        )
+    }
+
+    //Add A card to the list of cards
+    fun addCardToList(business: Business, businessReviews: Reviews) {
+
+        var bussinessName:String = business.name //+ "\n" + business.rating
+        var imageUrl:String = business.image_url
+        var businessRating:String = business.rating.toString()
+        var businessPhone:String = "Phone: "+business.display_phone
+        var reviewCount:Double = business.review_count
+        var firstReviewUserImage:String = businessReviews.reviews[0].user.image_url
+        var firstReviewUserName:String = businessReviews.reviews[0].user.name
+        var firstReviewText:String = businessReviews.reviews[0].text
+
+        val card = cards(imageUrl,bussinessName,businessRating,businessPhone, reviewCount)
+        rowItems!!.add(card)
+        arrayAdapter!!.notifyDataSetChanged()
+    }
+
     //Add A card to the list of cards
     fun addCardToList(business: Business, buisnessDetail: Any) {
 
@@ -112,6 +147,7 @@ class HomeActivity : AppCompatActivity() {
         var businessRating:String = business.rating.toString()
         var businessPhone:String = "Phone: "+business.display_phone
         var reviewCount:Double = business.review_count
+
         val card = cards(imageUrl,bussinessName,businessRating,businessPhone, reviewCount)
         rowItems!!.add(card)
         arrayAdapter!!.notifyDataSetChanged()
