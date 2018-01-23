@@ -21,6 +21,11 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //FOR TESTING *******
+        //UpdateUI(null)
+        //return
+        //FOR TESTING ********
+
         var gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build()
@@ -74,8 +79,8 @@ class MainActivity : AppCompatActivity(),
 
     private fun updateUI(account: GoogleSignInAccount?) {
         var intent = Intent(this, HomeActivity::class.java)
-        intent.putExtra("email", account!!.email.toString())
-        intent.putExtra("givenName", account.givenName.toString())
+        //intent.putExtra("email", account!!.email.toString())
+        //intent.putExtra("givenName", account.givenName.toString())
         startActivity(intent)
     }
 }
