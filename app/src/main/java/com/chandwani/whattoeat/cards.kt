@@ -10,13 +10,36 @@ class cards {
     private var phone: String
     private var reviewCount: Double
 
-    constructor(url:String, name:String, rating:String, phone:String, reviewCount:Double) {
+    private var userImageUrl: String
+    private var userName: String
+    private var userReview: String
+
+    constructor(url:String, name:String, rating:String, phone:String, reviewCount:Double, userImageUrl:String, userName:String, userReview:String) {
         this.name=name
         this.url=url
         this.rating=rating
         this.phone=phone
         this.reviewCount = reviewCount
+
+        this.userImageUrl=userImageUrl
+        this.userName=userName
+        this.userReview=userReview
     }
+
+    //TODO: add setters for review information
+
+    fun getUserImageUrl():String{
+        return userImageUrl
+    }
+
+    fun getUserName():String{
+        return userName
+    }
+
+    fun getUserReview():String{
+        return userReview
+    }
+
 
     fun getReviewCount():Double {
         return reviewCount
@@ -25,7 +48,6 @@ class cards {
     fun geturl():String {
         return url
     }
-
 
     fun getName():String {
         return name

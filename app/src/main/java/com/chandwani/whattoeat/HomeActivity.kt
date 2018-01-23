@@ -134,11 +134,12 @@ class HomeActivity : AppCompatActivity() {
         var firstReviewUserName:String = businessReviews.reviews[0].user.name
         var firstReviewText:String = businessReviews.reviews[0].text
 
-        val card = cards(imageUrl,bussinessName,businessRating,businessPhone, reviewCount)
+        val card = cards(imageUrl,bussinessName,businessRating,businessPhone, reviewCount,firstReviewUserImage,firstReviewUserName,firstReviewText)
         rowItems!!.add(card)
         arrayAdapter!!.notifyDataSetChanged()
     }
 
+    /*
     //Add A card to the list of cards
     fun addCardToList(business: Business, buisnessDetail: Any) {
 
@@ -165,6 +166,7 @@ class HomeActivity : AppCompatActivity() {
         rowItems!!.add(card)
         arrayAdapter!!.notifyDataSetChanged()
     }
+    */
 
     //Create swipe container
     fun createSwipeCards() {

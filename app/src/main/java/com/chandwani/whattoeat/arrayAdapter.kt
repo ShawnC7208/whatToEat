@@ -34,6 +34,10 @@ class arrayAdapter : ArrayAdapter<cards> {
         var reviewCount:TextView = convertView!!.findViewById<TextView>(R.id.reviewCount)
         var yelpStars:ImageView = convertView!!.findViewById<ImageView>(R.id.yelpStars)
 
+        var userImage:ImageView = convertView!!.findViewById(R.id.userImage)
+        var userName:TextView = convertView!!.findViewById(R.id.userName)
+        var userReview:TextView = convertView!!.findViewById(R.id.userReview)
+
         name.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG)
 
         name.setText(card_item.getName())
@@ -59,6 +63,15 @@ class arrayAdapter : ArrayAdapter<cards> {
                 Glide.with(convertView.context).load(card_item.geturl()).into(image)
             }
         }
+        when (card_item.getUserImageUrl()){
+            "default" -> Glide.with(convertView.context).load(R.mipmap.ic_launcher).into(userImage)
+            else -> {
+                Glide.with(convertView.context).load(card_item.getUserImageUrl()).into(userImage)
+            }
+        }
+
+        userName.setText(card_item.getUserName())
+        userReview.setText(card_item.getUserReview())
 
         return convertView
     }
