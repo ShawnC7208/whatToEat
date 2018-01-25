@@ -22,14 +22,17 @@ interface YelpHelper{
                        @Query("latitude") lat : String,
                        @Query("longitude") lng : String,
                        @Query("limit") limit: Int,
+                       @Query("offset") offset: Int,
                        @Header("Authorization") key: String): io.reactivex.Observable<YelpBusinessSearchResult>
 
     @GET("businesses/{id}")
     fun businessDetails(@Path("id") id: String,
+                        @Header("Retry-After") time: Int,
                         @Header("Authorization") key: String): io.reactivex.Observable<Reviews>
 
     @GET("businesses/{id}/reviews")
     fun businessReviews(@Path("id") id: String,
+                        @Header("Retry-After") time: Int,
                         @Header("Authorization") key: String): io.reactivex.Observable<Reviews>
 
     companion object Factory {

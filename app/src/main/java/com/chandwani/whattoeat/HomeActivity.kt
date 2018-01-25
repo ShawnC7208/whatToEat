@@ -25,6 +25,8 @@ import pl.charmas.android.reactivelocation2.ReactiveLocationProvider
 import com.bumptech.glide.Glide
 import com.chandwani.whattoeat.ClassModels.YelpApiModels.YelpSearchResultModel.yelpReviewModels.Review
 import com.chandwani.whattoeat.ClassModels.YelpApiModels.YelpSearchResultModel.yelpReviewModels.Reviews
+import retrofit2.HttpException
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 
@@ -32,8 +34,10 @@ class HomeActivity : AppCompatActivity() {
 
     private var arrayAdapter: arrayAdapter? = null
     private var rowItems: ArrayList<cards>? = null
-    private var i: Int = 0
+    private var offsetCounter: Int = 20
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private var startLat: Double = 0.0
+    private var startLng: Double = 0.0
     private lateinit var flingContainer: SwipeFlingAdapterView
 
     @SuppressLint("MissingPermission")
@@ -60,17 +64,19 @@ class HomeActivity : AppCompatActivity() {
         locationProvider.getUpdatedLocation(request)
                 .subscribe(object : Consumer<Location> {
                     override fun accept(location: Location?) {
-                        callYelpAPI("food", location!!.latitude, location!!.longitude)
+                        startLat = location!!.latitude
+                        startLng = location!!.longitude
+                        callYelpAPI("food", location.latitude, location.longitude, 20)
                     }
                 })
     }
 
     //Call yelp api
-    fun callYelpAPI(term: String ,lat: Double, lng: Double) {
+    fun callYelpAPI(term: String ,lat: Double, lng: Double, offset: Int) {
         //Call Yelp API
         val repository = YelpSearchRepositoryProvider.provideYelpSearchRepository()
         compositeDisposable.add(
-                repository.businessList(term, lat.toString(), lng.toString())
+                repository.businessList(term, lat.toString(), lng.toString(), offset)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe({
@@ -117,7 +123,10 @@ class HomeActivity : AppCompatActivity() {
                         .subscribe({
                             result -> addCardToList(business, result)
                         }, {
-                            error -> error.printStackTrace()
+                            error -> if((error as HttpException).code() == 429) {
+                            getReviewsForBusiness(business)
+                            } else {
+                            error.printStackTrace() }
                         })
         )
     }
@@ -125,7 +134,7 @@ class HomeActivity : AppCompatActivity() {
     //Add A card to the list of cards
     fun addCardToList(business: Business, businessReviews: Reviews) {
 
-        var bussinessName:String = business.name //+ "\n" + business.rating
+        var bussinessName:String = business.name
         var imageUrl:String = business.image_url
         var businessRating:String = business.rating.toString()
         var businessPhone:String = "Phone: "+business.display_phone
@@ -200,16 +209,14 @@ class HomeActivity : AppCompatActivity() {
 
             override fun onAdapterAboutToEmpty(itemsInAdapter: Int) {
                 // Ask for more data here
-//                al!!.add("XML Test" + i.toString())
-//                arrayAdapter!!.notifyDataSetChanged()
-//                Log.d("LIST", "notified")
-//                i += 1
+                callYelpAPI("food", startLat, startLng, offsetCounter)
+                offsetCounter += 20
             }
         })
 
         // Add an OnItemClickListener
         flingContainer.setOnItemClickListener {
-            itemPosition, dataObject -> Toast.makeText(this@HomeActivity, "Clicked!", Toast.LENGTH_SHORT)
+            itemPosition, dataObject -> Toast.makeText(this@HomeActivity, "Clicked!", Toast.LENGTH_SHORT).show()
         }
 
         @OnClick(R.id.item_swipe_right_indicator)

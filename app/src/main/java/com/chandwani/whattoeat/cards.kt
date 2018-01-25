@@ -10,11 +10,11 @@ class cards {
     private var phone: String
     private var reviewCount: Double
 
-    private var userImageUrl: String
+    private var userImageUrl: String?
     private var userName: String
     private var userReview: String
 
-    constructor(url:String, name:String, rating:String, phone:String, reviewCount:Double, userImageUrl:String, userName:String, userReview:String) {
+    constructor(url:String, name:String, rating:String, phone:String, reviewCount:Double, userImageUrl:String?, userName:String, userReview:String) {
         this.name=name
         this.url=url
         this.rating=rating
@@ -28,7 +28,7 @@ class cards {
 
     //TODO: add setters for review information
 
-    fun getUserImageUrl():String{
+    fun getUserImageUrl():String?{
         return userImageUrl
     }
 
