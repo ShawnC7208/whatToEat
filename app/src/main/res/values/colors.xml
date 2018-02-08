@@ -15,4 +15,8 @@
     <color name="lightRed">#F44336</color>
     <color name="darkRed">#D32F2F</color>
     <color name="deepBlue">#08415C</color>
+    <color name="desertSand">#DBD3AD</color>
+    <color name="clayPolyPomonaGreen">#28502E</color>
+    <color name="deepSpringBud">#47682C</color>
+    <color name="mediumJungleGreen">#1B2F33</color>
 </resources>

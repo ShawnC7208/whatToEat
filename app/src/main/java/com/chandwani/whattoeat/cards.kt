@@ -13,8 +13,9 @@ class cards {
     private var userImageUrl: String?
     private var userName: String
     private var userReview: String
+    private var businessAddress: String
 
-    constructor(url:String, name:String, rating:String, phone:String, reviewCount:Double, userImageUrl:String?, userName:String, userReview:String) {
+    constructor(url:String, name:String, rating:String, phone:String, reviewCount:Double, userImageUrl:String?, userName:String, userReview:String, businessAddress:String) {
         this.name=name
         this.url=url
         this.rating=rating
@@ -24,6 +25,7 @@ class cards {
         this.userImageUrl=userImageUrl
         this.userName=userName
         this.userReview=userReview
+        this.businessAddress = businessAddress
     }
 
     //TODO: add setters for review information
@@ -69,4 +71,11 @@ class cards {
         this.phone=phone
     }
 
+    fun getBusinessAddress():String {
+        return businessAddress
+    }
+
+    fun setBusinessAddress() {
+        this.businessAddress = businessAddress
+    }
 }

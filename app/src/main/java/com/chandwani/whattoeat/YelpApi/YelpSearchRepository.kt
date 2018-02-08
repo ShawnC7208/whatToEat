@@ -13,7 +13,7 @@ class YelpSearchRepository(val yelpHelper: YelpHelper) {
         return yelpHelper.businessesList(term,
                 lat,
                 lng,
-                20,
+                10,
                 offset,
                 "Bearer "+"umnrzi9gXZOdZv3APeOxbsGktOY7O0ndH-CI6wn9vg6f_U0gBLkUKiz5O4IyePSnweGre8iOtgjHE5pn7Sv3s8e1GUnDp0EGggS9O9dZ9oz1ot-kpn0AzOladwlIWnYx")
     }

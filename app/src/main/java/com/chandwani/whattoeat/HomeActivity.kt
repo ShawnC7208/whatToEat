@@ -1,11 +1,14 @@
 package com.chandwani.whattoeat
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.location.Location
+import android.net.Uri
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
+import android.support.design.widget.FloatingActionButton
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -39,6 +42,9 @@ class HomeActivity : AppCompatActivity() {
     private var startLat: Double = 0.0
     private var startLng: Double = 0.0
     private lateinit var flingContainer: SwipeFlingAdapterView
+    private var cardAddress: String = ""
+    private var navigationUri = "http://maps.google.co.in/maps?q=" + cardAddress
+    private lateinit var directionButton: FloatingActionButton
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +75,9 @@ class HomeActivity : AppCompatActivity() {
                         callYelpAPI("food", location.latitude, location.longitude, 20)
                     }
                 })
+
+        directionButton = findViewById<FloatingActionButton>(R.id.Navigation)
+
     }
 
     //Call yelp api
@@ -142,8 +151,14 @@ class HomeActivity : AppCompatActivity() {
         var firstReviewUserImage:String = businessReviews.reviews[0].user.image_url
         var firstReviewUserName:String = businessReviews.reviews[0].user.name
         var firstReviewText:String = businessReviews.reviews[0].text
+        var businessAddress:String =  ""
 
-        val card = cards(imageUrl,bussinessName,businessRating,businessPhone, reviewCount,firstReviewUserImage,firstReviewUserName,firstReviewText)
+        //Get Address
+        for(addressString in business.location.display_address) {
+            businessAddress += (addressString + " ")
+        }
+
+        val card = cards(imageUrl,bussinessName,businessRating,businessPhone, reviewCount,firstReviewUserImage,firstReviewUserName,firstReviewText, businessAddress)
         rowItems!!.add(card)
         arrayAdapter!!.notifyDataSetChanged()
     }
@@ -193,6 +208,13 @@ class HomeActivity : AppCompatActivity() {
             override fun removeFirstObjectInAdapter() {
                 // this is to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!")
+
+                cardAddress = rowItems!![1].getBusinessAddress();
+                directionButton.setOnClickListener {
+                    var mapsIntent = Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.co.in/maps?q="  + cardAddress));
+                    startActivity(mapsIntent);
+                }
+
                 rowItems!!.removeAt(0)
                 arrayAdapter!!.notifyDataSetChanged()
             }

@@ -4,14 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mediumJungleGreen"
     tools:context="com.chandwani.whattoeat.HomeActivity">
 
     <com.lorentzos.flingswipe.SwipeFlingAdapterView
         android:id="@+id/frame"
-        android:background="#ffeee9e2"
-        android:layout_width="match_parent"
+        android:layout_width="370dp"
         android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="#ffeee9e2"
+        android:backgroundTint="@color/mediumJungleGreen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:rotation_degrees="15.5"
-        tools:context=".HomeActivity" />
+        tools:context=".HomeActivity"
+
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/Navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha=".5"
+        android:backgroundTint="@color/desertSand"
+        android:src="@drawable/ic_navigation_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:useCompatPadding="true"></android.support.design.widget.FloatingActionButton>
+
+    <!--<android.support.constraint.ConstraintLayout-->
+    <!--android:id="@+id/constraintLayout"-->
+    <!--android:layout_width="368dp"-->
+    <!--android:layout_height="79dp"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--&gt;-->
+
+    <!--<Button-->
+    <!--android:id="@+id/button2"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:text="Button"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
+    <!--</android.support.constraint.ConstraintLayout>-->
+
 
 </android.support.constraint.ConstraintLayout>
