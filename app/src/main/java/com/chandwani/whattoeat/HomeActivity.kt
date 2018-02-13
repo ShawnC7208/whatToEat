@@ -154,13 +154,22 @@ class HomeActivity : AppCompatActivity() {
         var businessAddress:String =  ""
 
         //Get Address
+        businessAddress = bussinessName
         for(addressString in business.location.display_address) {
-            businessAddress += (addressString + " ")
+            businessAddress += (" " + addressString)
         }
 
         val card = cards(imageUrl,bussinessName,businessRating,businessPhone, reviewCount,firstReviewUserImage,firstReviewUserName,firstReviewText, businessAddress)
         rowItems!!.add(card)
         arrayAdapter!!.notifyDataSetChanged()
+
+        if (cardAddress == "") {
+            cardAddress = rowItems!![0].getBusinessAddress();
+            directionButton.setOnClickListener {
+                var mapsIntent = Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.co.in/maps?q="  + cardAddress));
+                startActivity(mapsIntent);
+            }
+        }
     }
 
     /*
