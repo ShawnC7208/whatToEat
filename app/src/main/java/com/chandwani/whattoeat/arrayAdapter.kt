@@ -30,13 +30,13 @@ class arrayAdapter : ArrayAdapter<cards> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.card, parent, false)
 
         var name:TextView = convertView!!.findViewById<TextView>(R.id.helloText)
-        var image:ImageView = convertView!!.findViewById<ImageView>(R.id.image)
-        var reviewCount:TextView = convertView!!.findViewById<TextView>(R.id.reviewCount)
-        var yelpStars:ImageView = convertView!!.findViewById<ImageView>(R.id.yelpStars)
+        var image:ImageView = convertView.findViewById<ImageView>(R.id.image)
+        var reviewCount:TextView = convertView.findViewById<TextView>(R.id.reviewCount)
+        var yelpStars:ImageView = convertView.findViewById<ImageView>(R.id.yelpStars)
 
-        var userImage:ImageView = convertView!!.findViewById(R.id.userImage)
-        var userName:TextView = convertView!!.findViewById(R.id.userName)
-        var userReview:TextView = convertView!!.findViewById(R.id.userReview)
+        var userImage:ImageView = convertView.findViewById(R.id.userImage)
+        var userName:TextView = convertView.findViewById(R.id.userName)
+        var userReview:TextView = convertView.findViewById(R.id.userReview)
 
         name.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG)
 

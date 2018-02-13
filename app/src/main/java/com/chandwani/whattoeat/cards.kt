@@ -11,11 +11,11 @@ class cards {
     private var reviewCount: Double
 
     private var userImageUrl: String?
-    private var userName: String
-    private var userReview: String
-    private var businessAddress: String
+    private var userName: String?
+    private var userReview: String?
+    private var businessAddress: String?
 
-    constructor(url:String, name:String, rating:String, phone:String, reviewCount:Double, userImageUrl:String?, userName:String, userReview:String, businessAddress:String) {
+    constructor(url:String, name:String, rating:String, phone:String, reviewCount:Double, userImageUrl:String?, userName:String?, userReview:String?, businessAddress:String?) {
         this.name=name
         this.url=url
         this.rating=rating
@@ -34,11 +34,11 @@ class cards {
         return userImageUrl
     }
 
-    fun getUserName():String{
+    fun getUserName():String?{
         return userName
     }
 
-    fun getUserReview():String{
+    fun getUserReview():String?{
         return userReview
     }
 
@@ -71,7 +71,7 @@ class cards {
         this.phone=phone
     }
 
-    fun getBusinessAddress():String {
+    fun getBusinessAddress():String? {
         return businessAddress
     }
 

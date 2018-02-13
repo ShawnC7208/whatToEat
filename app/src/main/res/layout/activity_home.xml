@@ -37,6 +37,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:useCompatPadding="true"></android.support.design.widget.FloatingActionButton>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/Share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha=".5"
+        android:backgroundTint="@color/desertSand"
+        android:src="@drawable/ic_share_black_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:useCompatPadding="true"></android.support.design.widget.FloatingActionButton>
+
     <!--<android.support.constraint.ConstraintLayout-->
     <!--android:id="@+id/constraintLayout"-->
     <!--android:layout_width="368dp"-->

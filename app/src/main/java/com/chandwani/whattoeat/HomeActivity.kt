@@ -42,7 +42,7 @@ class HomeActivity : AppCompatActivity() {
     private var startLat: Double = 0.0
     private var startLng: Double = 0.0
     private lateinit var flingContainer: SwipeFlingAdapterView
-    private var cardAddress: String = ""
+    private var cardAddress: String? = ""
     private var navigationUri = "http://maps.google.co.in/maps?q=" + cardAddress
     private lateinit var directionButton: FloatingActionButton
 
@@ -71,7 +71,7 @@ class HomeActivity : AppCompatActivity() {
                 .subscribe(object : Consumer<Location> {
                     override fun accept(location: Location?) {
                         startLat = location!!.latitude
-                        startLng = location!!.longitude
+                        startLng = location.longitude
                         callYelpAPI("food", location.latitude, location.longitude, 20)
                     }
                 })
