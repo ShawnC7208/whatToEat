@@ -28,7 +28,10 @@ import pl.charmas.android.reactivelocation2.ReactiveLocationProvider
 import com.bumptech.glide.Glide
 import com.chandwani.whattoeat.ClassModels.YelpApiModels.YelpSearchResultModel.yelpReviewModels.Review
 import com.chandwani.whattoeat.ClassModels.YelpApiModels.YelpSearchResultModel.yelpReviewModels.Reviews
+import io.reactivex.Scheduler
 import retrofit2.HttpException
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
@@ -45,11 +48,16 @@ class HomeActivity : AppCompatActivity() {
     private var cardAddress: String? = ""
     private var navigationUri = "http://maps.google.co.in/maps?q=" + cardAddress
     private lateinit var directionButton: FloatingActionButton
+    private lateinit var scheduler: Scheduler
 
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        var threadCount: Int = Runtime.getRuntime().availableProcessors();
+        var threadPoolExecutor: ExecutorService = Executors.newFixedThreadPool(threadCount);
+        scheduler = Schedulers.from(threadPoolExecutor);
 
 
         //Initialize variables
@@ -87,7 +95,7 @@ class HomeActivity : AppCompatActivity() {
         compositeDisposable.add(
                 repository.businessList(term, lat.toString(), lng.toString(), offset)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
+                        .subscribeOn(scheduler)
                         .subscribe({
                             result -> addBusinessCards(result)
                         }, {
@@ -113,7 +121,7 @@ class HomeActivity : AppCompatActivity() {
         compositeDisposable.add(
                 repository.businessDetails(business.id)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
+                        .subscribeOn(scheduler)
                         .subscribe({
                             result -> addCardToList(business, result)
                         }, {
@@ -128,7 +136,7 @@ class HomeActivity : AppCompatActivity() {
         compositeDisposable.add(
                 repository.businessReviews(business.id)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
+                        .subscribeOn(scheduler)
                         .subscribe({
                             result -> addCardToList(business, result)
                         }, {
@@ -217,13 +225,13 @@ class HomeActivity : AppCompatActivity() {
             override fun removeFirstObjectInAdapter() {
                 // this is to delete an object from the Adapter (/AdapterView)
                 Log.d("LIST", "removed object!")
-
-                cardAddress = rowItems!![1].getBusinessAddress();
-                directionButton.setOnClickListener {
-                    var mapsIntent = Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.co.in/maps?q="  + cardAddress));
-                    startActivity(mapsIntent);
+                if(rowItems!!.count() > 2) {
+                    cardAddress = rowItems!![1].getBusinessAddress()
+                    directionButton.setOnClickListener {
+                        var mapsIntent = Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.co.in/maps?q="  + cardAddress))
+                        startActivity(mapsIntent);
+                    }
                 }
-
                 rowItems!!.removeAt(0)
                 arrayAdapter!!.notifyDataSetChanged()
             }
