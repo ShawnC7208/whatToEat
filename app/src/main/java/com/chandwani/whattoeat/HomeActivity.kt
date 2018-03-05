@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.design.widget.FloatingActionButton
+import android.text.Html
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -46,8 +47,8 @@ class HomeActivity : AppCompatActivity() {
     private var startLng: Double = 0.0
     private lateinit var flingContainer: SwipeFlingAdapterView
     private var cardAddress: String? = ""
-    private var navigationUri = "http://maps.google.co.in/maps?q=" + cardAddress
     private lateinit var directionButton: FloatingActionButton
+    private lateinit var shareButton: FloatingActionButton
     private lateinit var scheduler: Scheduler
 
     @SuppressLint("MissingPermission")
@@ -84,7 +85,8 @@ class HomeActivity : AppCompatActivity() {
                     }
                 })
 
-        directionButton = findViewById<FloatingActionButton>(R.id.Navigation)
+        directionButton = findViewById(R.id.Navigation)
+        shareButton = findViewById(R.id.Share)
 
     }
 
@@ -107,7 +109,6 @@ class HomeActivity : AppCompatActivity() {
     //Called after getting search results form Yelp API
     fun addBusinessCards(yelpApiSearchResults: YelpBusinessSearchResult) {
         //Do for each loop here for buisness inside of the YelpBusinessSearchResult object
-
         for(business in yelpApiSearchResults.businesses) {
             getReviewsForBusiness(business)
             //addCardToList(business)
@@ -140,10 +141,16 @@ class HomeActivity : AppCompatActivity() {
                         .subscribe({
                             result -> addCardToList(business, result)
                         }, {
-                            error -> if((error as HttpException).code() == 429) {
-                            getReviewsForBusiness(business)
-                            } else {
-                            error.printStackTrace() }
+                            error ->
+                            try {
+                                if((error as HttpException).code() == 429) {
+                                    getReviewsForBusiness(business)
+                                } else {
+                                    error.printStackTrace()
+                                }
+                            } catch (ex: Exception) {
+                                error.printStackTrace()
+                            }
                         })
         )
     }
@@ -159,7 +166,7 @@ class HomeActivity : AppCompatActivity() {
         var firstReviewUserImage:String = businessReviews.reviews[0].user.image_url
         var firstReviewUserName:String = businessReviews.reviews[0].user.name
         var firstReviewText:String = businessReviews.reviews[0].text
-        var businessAddress:String =  ""
+        var businessAddress:String
 
         //Get Address
         businessAddress = bussinessName
@@ -176,6 +183,12 @@ class HomeActivity : AppCompatActivity() {
             directionButton.setOnClickListener {
                 var mapsIntent = Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.co.in/maps?q="  + cardAddress));
                 startActivity(mapsIntent);
+            }
+            shareButton.setOnClickListener {
+                var sharingIntent = Intent(Intent.ACTION_SEND)
+                sharingIntent.type = "text/plain"
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, cardAddress)
+                startActivity(Intent.createChooser(sharingIntent, "Share using"))
             }
         }
     }
@@ -230,6 +243,12 @@ class HomeActivity : AppCompatActivity() {
                     directionButton.setOnClickListener {
                         var mapsIntent = Intent(android.content.Intent.ACTION_VIEW, Uri.parse("http://maps.google.co.in/maps?q="  + cardAddress))
                         startActivity(mapsIntent);
+                    }
+                    shareButton.setOnClickListener {
+                        var sharingIntent = Intent(Intent.ACTION_SEND)
+                        sharingIntent.type = "text/plain"
+                        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, cardAddress)
+                        startActivity(Intent.createChooser(sharingIntent, "Share using"))
                     }
                 }
                 rowItems!!.removeAt(0)

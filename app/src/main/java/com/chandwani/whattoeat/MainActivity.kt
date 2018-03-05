@@ -22,19 +22,19 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.activity_main)
 
         //FOR TESTING *******
-        //UpdateUI(null)
-        //return
+        updateUI(null)
+        return
         //FOR TESTING ********
 
-        var gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build()
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-
-        var signInButton = findViewById<SignInButton>(R.id.sign_in_button)
-        signInButton.setSize(1)
-        signInButton.setOnClickListener(this)
+//        var gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .build()
+//
+//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+//
+//        var signInButton = findViewById<SignInButton>(R.id.sign_in_button)
+//        signInButton.setSize(1)
+//        signInButton.setOnClickListener(this)
     }
 
     override fun onStart() {
