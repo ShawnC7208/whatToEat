@@ -21,10 +21,10 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //FOR TESTING *******
+        //FOR SKIPPING LOGIN *******
         updateUI(null)
         return
-        //FOR TESTING ********
+        //FOR SKIPPING LOGIN ********
 
 //        var gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .requestEmail()
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(),
         try {
 
             val account = completedTask.getResult(ApiException::class.java)
-
+ß
             updateUI(account)
         }
         catch (e : ApiException) {

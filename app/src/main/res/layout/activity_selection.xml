@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/table_for_two_925x"
+    tools:context="com.chandwani.whattoeat.SelectionActivity">
+
+
+
+            <TextView
+                android:id="@+id/Selection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/eraser_dust"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="30sp"
+                tools:text="I'm feeling like...."
+                android:padding="3dp"/>
+
+</android.support.constraint.ConstraintLayout>
