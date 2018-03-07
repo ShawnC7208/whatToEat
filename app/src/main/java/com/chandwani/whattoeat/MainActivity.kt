@@ -69,7 +69,6 @@ class MainActivity : AppCompatActivity(),
         try {
 
             val account = completedTask.getResult(ApiException::class.java)
-ß
             updateUI(account)
         }
         catch (e : ApiException) {
